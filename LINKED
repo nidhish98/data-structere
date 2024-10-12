@@ -1,0 +1,498 @@
+//returning variable from structere
+#include <stdio.h>
+#include <stdlib.h>
+struct point{
+    int x;
+    int y;
+};
+struct point edit(struct point p){
+    p.x=p.x+1;
+    p.y=p.y+5;
+    return p; //returned.
+}
+int main()
+{ 
+    struct point p1={1,2};
+    p1=edit(p1);
+    printf(p1.x);
+  
+   
+   
+       
+   
+
+    return 0;
+}
+//returning pointer as variable
+#include <stdlib.h>
+struct point{
+    int x;
+    int y;
+};
+struct point* fun(int x,int y){
+    struct point *ptr=(struct point *)malloc(sizeof(struct point));
+    //p.x=p.x+1;
+    
+   ptr->x=x+1;
+     ptr->y=y+1;  
+    
+    return ptr;//retunring pointer
+}
+int main()
+{ 
+    struct point *ptr=fun(1,2);
+  if(ptr!=NULL){
+    printf("%d",ptr->x);
+    printf("%d",ptr->y);
+  }
+   
+
+    return 0;
+}
+2nd way
+#include <stdio.h>
+#include <stdlib.h>
+struct point{
+    int x;
+    int y;
+};
+struct point* fun(int x,int y){
+    struct point *ptr=(struct point *)malloc(sizeof(struct point)); //memory allocate for pointer
+    //p.x=p.x+1;
+    
+   ptr->x=x+1;
+     ptr->y=y+1;  
+    
+    return ptr;//retunring pointer
+}
+int print(struct point *ptr){
+    printf("%d",ptr->x);
+     printf("%d",ptr->y);
+    
+}
+int main()
+{ 
+    struct point *ptr=fun(1,2);
+  print(ptr);
+
+    return 0;
+}
+linked list
+{data-- address of next nvalue}---{data--address of next}
+last address is NULL
+head is poointer which is accessed first node/
+#include <stdio.h>
+#include <stdlib.h>
+  //SINGLE LINKED LIST
+struct node{
+    int data;
+    struct node *link;
+    
+};
+int main()
+{   
+    struct node *head=NULL;         //head is pointer which value is null..
+    head=(struct node *)malloc(sizeof(struct node)); //declaring ll of struct node type....
+                                                           //after this head can access data 
+    head->data=45;
+    head->link=NULL;
+    printf("%d",head->data);
+
+    
+    
+    
+
+    return 0;
+}
+*******************************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+struct node{
+    int data;
+    struct node *link;
+    
+};
+//traversing
+void f(struct node *head){
+    while(head->link!=NULL){
+        printf("%d",head->data);
+        head=head->;
+    }
+}
+int main()
+{   
+    struct node *head;         //head is pointer whose data type is that of node (data and link) now allocating memory for node(head).
+    head=(struct node *)malloc(sizeof(struct node)); //declaring ll of struct node type....
+                                                           //after this head can access data 
+    head->data=45;
+    head->link=NULL;
+     struct node *tail;
+tail=(struct node *)malloc(sizeof(struct node));
+tail->data=566;
+tail->link=NULL;
+head->link=tail;
+//printf("%d",head->link);
+f(head);
+
+
+    
+    
+    
+
+    return 0;
+}
+
+insertion of ll at index i 
+#include <stdio.h>
+#include <stdlib.h>
+struct node{
+    int data;
+    struct node *link;
+    
+};
+//traversing
+void f(struct node *head){
+    while(head->link!=NULL){
+        printf("%d \n",head->data);
+        head=head->link;
+    }
+    if(head->link==NULL){
+       printf("%d\n",head->data);
+      
+    }
+}
+void insertion(int index,struct node *head,int data){
+    struct node *ptr=(struct node *)malloc(sizeof(struct node));  //ptr ka insertion
+    struct node*p=head;
+    ptr->data=data;
+    int i=0;
+    while(i!=index-1){
+        i++;
+        p=p->link;
+    }
+     ptr->link=p->link;
+    p->link=ptr;
+
+}
+//insering in somewhere b/w at index
+int main()
+{   
+    struct node *head;         //head is pointer whose data type is that of node (data and link) now allocating memory for node(head).
+    head=(struct node *)malloc(sizeof(struct node)); //declaring ll of struct node type....
+                                                           //after this head can access data 
+    head->data=45;
+    head->link=NULL;
+     struct node *tail;
+tail=(struct node *)malloc(sizeof(struct node));
+tail->data=566;
+tail->link=NULL;
+head->link=tail;
+struct node *third;
+third=(struct node *)malloc(sizeof(struct node));
+third->data=67;
+third->link=NULL;
+tail->link=third;
+int index=2;
+
+
+//printf("%d",head->link);
+printf("before insertion");
+f(head);
+printf("after insertion");
+insertion(2,head,5);
+f(head);
+    
+  
+
+    
+    
+    
+
+    return 0;
+}
+//delring index of ll
+#include <stdio.h>
+#include <stdlib.h>
+struct node{
+    int data;
+    struct node *link;
+    
+};
+//traversing
+void f(struct node *head){
+    while(head->link!=NULL){
+        printf("%d \n",head->data);
+        head=head->link;
+    }
+    if(head->link==NULL){
+       printf("%d\n",head->data);
+      
+    }
+}
+void insertion(int index,struct node *head,int data){
+    struct node *ptr=(struct node *)malloc(sizeof(struct node));  //ptr ka insertion
+    struct node*p=head;
+    ptr->data=data;
+    int i=0;
+    while(i!=index-1){
+        i++;
+        p=p->link; 
+    }
+     ptr->link=p->link;
+    p->link=ptr;
+
+}
+ void deletion(int index,struct node *head){
+//insering in somewhere b/w at index
+int i=0;
+  struct node*p=head;
+while(i!=index-1){
+     i++;
+     p=p->link;
+}
+struct node *bet=(struct node*)malloc(sizeof(struct node));
+bet=p->link;
+p->link=bet->link;
+free(bet);
+}
+
+int main()
+{   
+    struct node *head;         //head is pointer whose data type is that of node (data and link) now allocating memory for node(head).
+    head=(struct node *)malloc(sizeof(struct node)); //declaring ll of struct node type....
+                                                           //after this head can access data 
+    head->data=45;
+    head->link=NULL;
+     struct node *tail;
+tail=(struct node *)malloc(sizeof(struct node));
+tail->data=566;
+tail->link=NULL;
+head->link=tail;
+struct node *third;
+third=(struct node *)malloc(sizeof(struct node));
+third->data=67;
+third->link=NULL;
+tail->link=third;
+int index=2;
+
+
+//printf("%d",head->link);
+printf("before insertion");
+f(head);
+printf("after insertion");
+insertion(2,head,5);
+f(head);
+//deletion
+printf("after deletion /n");
+ deletion(2, head);
+ f(head);
+    
+  
+
+    
+    
+    
+
+    return 0;
+}
+//insertion  of node at end of LL 
+o(1)
+deletion  at last node 
+#include <stdio.h>
+#include <stdlib.h>
+struct stack{
+    int data;
+    struct stack *link;
+};
+//create 
+struct stack *node(int data){
+    struct stack *node=malloc(sizeof(struct stack));
+    node->data=data;
+    node->link=NULL;
+    return node;
+}
+//traversal 
+void traverse(struct stack *head){
+    while(head!=NULL){
+        printf("%d  ",head->data);
+        head=head->link;
+    }
+}
+void delete(struct stack *head){
+    struct stack *temp=head;
+    struct stack *temp2=head;
+    while(temp->link!=NULL){
+      temp2=temp;
+      temp=temp->link;
+    }
+    free(temp);
+    temp2->link=NULL;
+}
+int main()
+{
+    struct stack *head=malloc(sizeof(struct stack));
+    head->data=12;
+    head->link=NULL;
+   struct stack *nodee=node(34);
+   head->link=nodee;
+    traverse(head);
+   struct stack *ptr=head;
+  
+   printf("\n");
+  
+ #include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 10
+
+ struct Queue {
+    int front;
+    int rear;
+    int customers[MAX];
+} Queue;
+
+void initializeQueue(Queue *q) {
+    q->front = -1;
+    q->rear = -1;
+}
+
+int isFull(Queue *q) {
+    return (q->rear + 1) % MAX == q->front;
+}
+
+int isEmpty(Queue *q) {
+    return q->front == -1;
+}
+
+void enqueue(Queue *q, int customerID) {
+    if (isFull(q)) {
+        printf("Queue is full. No more customers can be added.\n");
+        return;
+    }
+
+    if (isEmpty(q)) {
+        q->front = q->rear = 0;
+    } else {
+        q->rear = (q->rear + 1) % MAX;
+    }
+    
+    q->customers[q->rear] = customerID;
+    printf("Customer %d has been added to the queue.\n", customerID);
+}
+
+int dequeue(Queue *q) {
+    if (isEmpty(q)) {
+        printf("Queue is empty. No customers to serve.\n");
+        return -1;
+    }
+
+    int customerID = q->customers[q->front];
+    if (q->front == q->rear) {
+        q->front = q->rear = -1;
+    } else {
+        q->front = (q->front + 1) % MAX;
+    }
+
+    return customerID;
+}
+
+void displayQueue(Queue *q) {
+    if (isEmpty(q)) {
+        printf("Queue is empty.\n");
+        return;
+    }
+
+    printf("Customers in the queue: ");
+    int i = q->front;
+    while (1) {
+        printf("%d ", q->customers[i]);
+        if (i == q->rear) break;
+        i = (i + 1) % MAX;
+    }
+    printf("\n");
+}
+
+int main() {
+    Queue q;
+    initializeQueue(&q);
+
+    int choice, customerID;
+
+    while (1) {
+        printf("\n--- Railway Ticket Center ---\n");
+        printf("1. Add Customer to Queue\n");
+        printf("2. Serve Customer\n");
+        printf("3. Display Queue\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter Customer ID: ");
+                scanf("%d", &customerID);
+                enqueue(&q, customerID);
+                break;
+            case 2:
+                customerID = dequeue(&q);
+                if (customerID != -1)
+                    printf("Serving Customer %d\n", customerID);
+                break;
+            case 3:
+                displayQueue(&q);
+                break;
+            case 4:
+                printf("Exiting...\n");
+                exit(0);
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    }
+
+    return 0;
+}
+
+   
+    delete(head);
+    traverse(head);
+    return 0;
+}
+not working 
+void deletei (int pos,struct stack *head){
+      int i=1;
+    struct stack *temp=head;
+    while(i<pos-1){
+        temp=temp->link;
+        i++;
+    }
+    free(temp->link);
+    temp->link= temp->link->link;
+  
+
+}
+reversing a linked list
+can push elements in stack then modigy or-
+    while (curr != NULL) {
+        next = curr->next;  // Store the next node
+        curr->next = prev;  // Reverse the current node's pointer
+        prev = curr;        // Move prev to this node
+        curr = next;        // Move to the next node
+    }
+//finding duplicates 
+void findDuplicates(struct Node* head) {
+    struct Node *ptr1, *ptr2;
+    int found = 0;
+
+    ptr1 = head;
+    while (ptr1->next != NULL) {
+        ptr2 = ptr1->next;
+        while (ptr2 != NULL) {
+            if (ptr1->data == ptr2->data) {
+                printf("Duplicate found: %d\n", ptr1->data);
+                found = 1;
+               // If you want to find all duplicates, remove this line.
+            }
+            ptr2 = ptr2->next;
+        }
+        ptr1 = ptr1->next;
+    }

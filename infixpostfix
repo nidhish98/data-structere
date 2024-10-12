@@ -1,0 +1,6 @@
+infix
+a+b,a-b,a/b,
+prefix
++ab,-pq
+postfix
+ab+,xy-,pq**
