@@ -1,0 +1,104 @@
+ */
+ struct ListNode *insert(struct ListNode *temp,struct ListNode *head) //temp is addition head is jisme addition
+ 
+ {struct ListNode *temp2=head;
+   if(head==NULL){
+    return temp;
+   }
+
+ 
+    while(head->next!=NULL){
+        head=head->next;
+    }
+    head->next=temp;
+    return temp2;
+
+ }
+struct ListNode* mergeTwoLists(struct ListNode* list1, struct ListNode* list2) {
+    struct ListNode *temp=NULL;
+    if(list1==NULL){
+        return list2;
+    }
+     if(list2==NULL){
+        return list1;
+    }
+    
+    while(list1!=NULL && list2!=NULL){
+        if(list1->val>list2->val){
+            struct ListNode *temp3=list2->next;
+            list2->next=NULL;
+            temp=insert(list2,temp);
+            list2=temp3;
+        }
+        else  if(list1->val<list2->val){
+             struct ListNode *temp4=list1->next;
+              list1->next=NULL;
+            temp=insert(list1,temp);
+            list1=temp4;
+        }
+        else{
+             struct ListNode *temp5=list1->next;
+              struct ListNode *temp6=list2->next;
+                list2->next=NULL;
+                  list1->next=NULL;
+            temp=insert(list1,temp);
+            temp=insert(list2,temp);
+            list1=temp5;
+            list2=temp6;
+        }
+    }
+    ///remaining nodes 
+    while(list1!=NULL){
+        struct Listnode *temp6=list1->next;
+        list1->next=NULL;
+        temp=insert(list1,temp);
+        list1=temp6;
+    }
+    while(list2!=NULL){
+        struct Listnode *temp7=list2->next;
+        list2->next=NULL;
+        temp=insert(list2,temp);
+        list2=temp7;
+    }
+    
+
+    return temp;
+}
+rotate list by k places 
+struct ListNode* rotateRight(struct ListNode* head, int k) {
+    struct ListNode *temp=head;
+    struct ListNode *temp2=head;
+    if(k==0){
+        return head;
+    }
+    if(head==NULL){
+        return head;
+    }
+    int size=1;
+    while(temp->next!=NULL){
+        size=size+1;
+
+        temp=temp->next;
+    }
+    temp->next=head;
+    printf("\n%d",temp->val);
+
+      k=k%size;
+   
+    int cap=size-k;
+    int i=0;
+    while(i<cap-1){
+          printf("%d",temp2->val);
+   temp2=temp2->next;
+   i++;
+    }
+    struct ListNode *temp3=temp2->next;
+    printf("\n%d",temp3->val);
+     temp2->next=NULL;
+     
+
+
+   // printf("%d",size);
+
+return temp3;
+}

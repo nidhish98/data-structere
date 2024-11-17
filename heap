@@ -1,0 +1,70 @@
+#include <stdio.h>
+
+// Function to perform heapify operation
+void heapify(int arr[], int n, int i) {
+    int largest = i;          // Initialize largest as root
+    int left = 2 * i;         // Left child index (for 1-based index)
+    int right = 2 * i + 1;    // Right child index (for 1-based index)
+
+    // Check if left child exists and is greater than root
+    if (left <= n && arr[left] > arr[largest]) {
+        largest = left;
+    }
+
+    // Check if right child exists and is greater than largest so far
+    if (right <= n && arr[right] > arr[largest]) {
+        largest = right;
+    }
+
+    // If largest is not the root
+    if (
+
+
+// Function to perform heap sort
+void heapSort(int arr[], int largest != i) {
+        int temp = arr[i];
+        arr[i] = arr[largest];
+        arr[largest] = temp;
+
+        // Recursively heapify the affected sub-tree
+        heapify(arr, n, largest);
+    }
+}n) {
+    // Build max heap
+    for (int i = n / 2; i >= 1; i--) {
+        heapify(arr, n, i);
+    }
+
+    // Extract elements from heap one by one
+    for (int i = n; i >= 1; i--) {
+        // Move current root to end
+        int temp = arr[1];
+        arr[1] = arr[i];
+        arr[i] = temp;
+
+        // Call heapify on the reduced heap
+        heapify(arr, i - 1, 1);
+    }
+}
+
+// Function to print an array (1-based index)
+void printArray(int arr[], int n) {
+    for (int i = 1; i <= n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+// Main function
+int main() {
+    int arr[] = {0, 12, 11, 13, 5, 6, 7}; // 0th index is unused
+    int n = sizeof(arr) / sizeof(arr[0]) - 1;
+
+    heapSort(arr, n);
+
+    printf("Sorted array is: \n");
+    printArray(arr, n);
+    return 0;
+}
+maxpriority queue- priority_queue<int> pq;
+minpriioerity queue-priority_queue<int, vector<int>, greater<int> > pq;

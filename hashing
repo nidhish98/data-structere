@@ -1,0 +1,189 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define TABLE_SIZE 10 // Define the size of the hash table
+
+// Structure to represent a hash table entry
+struct HashEntry {
+    int key;          // The key
+    int value;        // The value
+    int isActive;     // Status of the entry (active or deleted)
+};
+
+// Structure to represent the hash table
+struct HashTable {
+    struct HashEntry* table; // Array of hash entries
+};
+
+// Function to create a hash table
+struct HashTable* createHashTable() {
+   struct HashTable *ht=(struct HashTable*)malloc(sizeof(struct HashTable));
+   ht->table=(struct HashEntry*)malloc(TABLE_SIZE*sizeof(struct HashTable));
+     
+   for(int i=0;i<TABLE_SIZE;i++){
+      
+       ht->table[i].isActive=0;
+   }
+    return ht;
+}
+
+// Hash function
+int hash(int key) {
+    return key % TABLE_SIZE; // Simple modulo hash function
+}
+
+// Function to insert a key-value pair
+void insert(struct HashTable* ht, int key, int value) {
+    int idx=hash(key);
+   while(ht->table[idx].isActive==1){
+        idx=(idx+1)%TABLE_SIZE;
+   }
+  
+   ht->table[idx].key=key;
+    ht->table[idx].value=value;
+     ht->table[idx].isActive=1;
+   
+
+}
+
+// Function to search for a value by key
+int search(struct HashTable* ht, int key1) {
+     int idx = hash(key1); 
+    // x ko seearch
+   while(ht->table[idx].isActive){
+          
+       if(ht->table[idx].key==key1){
+           printf("found key value is %d",ht->table[idx].value);
+           break;
+       }
+       else{
+          idx=(idx+1)%TABLE_SIZE;
+       }
+   }
+}
+
+// Function to delete a key-value pair
+void delete(struct HashTable* ht, int key) {
+    int idx = hash(key);
+    
+    // Linear probing to find the key to delete
+    while (1==1) {
+        if (ht->table[idx].key == key) {
+            ht->table[idx].isActive = 0; // Mark the entry as inactive (deleted)
+            return;
+        }
+        idx = (idx + 1) % TABLE_SIZE; // Move to the next slot
+    }
+}
+
+// Function to display the hash table
+void display(struct HashTable* ht) {
+    printf("Hash Table:\n");
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        if (ht->table[i].isActive) {
+            printf("Index %d: Key = %d, Value = %d\n", i, ht->table[i].key, ht->table[i].value);
+        } else {
+            printf("Index %d: (empty)\n", i);
+        }
+    }
+}
+
+// Main function to demonstrate the hash table
+int main() {
+    struct HashTable* ht = createHashTable();
+    
+    insert(ht, 1, 100);
+    insert(ht, 2, 200);
+    insert(ht, 3, 300);
+    insert(ht, 12, 400); // Collision will occur here due to linear probing
+    insert(ht, 22, 500); // Another collision
+    
+    display(ht);
+    
+    printf("Searching for key 3  %d\n", search(ht, 3));
+    
+    delete(ht, 2);
+    printf("After deleting key 2:\n");
+    display(ht);
+    
+    return 0;
+}
+
+new easy(hashing)
+#include <stdio.h>
+#include <stdlib.h>
+#define SIZE 10
+// HashTable structure
+struct HashTable {
+int keys[SIZE];
+int values[SIZE];
+int occupied[SIZE]; // Track whether the slot is occupied or not
+};
+// Initialize the hash table
+void initialize(struct HashTable *table) {
+for (int i = 0; i < SIZE; i++) {
+table->keys[i] = -1; // -1 indicates an empty slot
+table->values[i] = -1;
+table->occupied[i] = 0; // 0 indicates the slot is unoccupied
+                        //1 indicates the slot is occupied
+}
+}
+// Simple hash function
+int hash(int key) {
+return key % SIZE;
+}
+// Insert a key-value pair into the hash table
+void insert(struct HashTable *table, int key, int value) {
+int index=hash(key);
+while(table->occupied[index]){
+    index=(index+1)%10;
+}
+table->keys[index]=key;
+table->values[index]=value;
+table->occupied[index]=1;
+}
+// Search for a key and return its value
+void search(struct HashTable *table,int key){
+    int x=hash(key);
+    while(table->occupied[x]){
+        if(key==table->keys[x]){
+            printf("the value is %d ",table->values[x]);
+            x=(x+1)%10;
+            break;
+        }
+                    x=(x+1)%10;
+    }
+}
+// Display the contents of the hash table
+void display(struct HashTable *table) {
+printf("Hash Table:\n");
+for (int i = 0; i < SIZE; i++) {
+if (table->occupied[i]) {
+printf("Index %d: Key = %d, Value = %d\n", i, table->keys[i],
+table->values[i]);
+}
+}
+}
+int main() {
+struct HashTable *table = malloc(sizeof(struct HashTable));
+initialize(table);
+// Insert some key-value pairs
+insert(table, 10, 167);
+insert(table, 20, 200);
+insert(table, 30, 300);
+insert(table, 40, 400);
+insert(table, 50, 500);
+// Display the current table
+display(table);
+// Search for a value
+search(table, 20);
+
+// Delete a key
+//delete(table, 30); // Key 30 should be deleted
+// Display the table after deletion
+
+// Try searching for a deleted key
+search(table,30);
+return 0;
+}

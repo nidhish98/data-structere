@@ -1,0 +1,714 @@
+creating a data structere 
+stack
+#include <stdio.h>
+#include <stdlib.h>
+//stack using array
+#include <stdio.h>
+#include <stdlib.h>
+struct stack{        //creating a data structere stack. using array
+    int size;
+    int top;
+int *arr; //pointer w
+}; 
+int isfull(struct stack *ptr){
+    if(ptr->top==ptr->size-1){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
+int isempty(struct stack *ptr){
+    if(ptr->top==-1){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+    
+}
+void push(struct stack *ptr) {  //push only if it is not full
+  if(isfull(ptr)!=1){      //not full
+     
+      int value;
+      printf("enter value\n");
+      scanf("%d",&value);
+      ptr->top=ptr->top+1;
+      ptr->arr[ptr->top]=value;
+      ;
+  }}
+  void pop(struct stack *ptr){
+      if(isempty(ptr)!=1){
+          
+          printf("no popped is %d\n",ptr->arr[ptr->top]);
+          ptr->top=ptr->top-1;
+          
+          
+      }
+  }
+  void peak(struct stack *ptr){
+      for(int i=ptr->top;i>=0;i--){
+          printf("%d\n",ptr->arr[i]);
+      }
+  }
+  
+
+    
+
+int main()
+{
+  struct stack *ptr=(struct stack*) malloc(sizeof(struct stack)); //dynamically allocate ptr which will take memory for 3 datatypes.
+   ptr->size=4;
+   ptr->top=-1;
+   ptr->arr=(int *)malloc(ptr->size*(sizeof(int)));
+   
+  
+   push(ptr);
+   push(ptr);
+   push(ptr);
+   push(ptr);
+   pop(ptr);
+   peak(ptr);
+    printf(" %dthe stack top",ptr->arr[ptr->top]);
+    return 0;}
+implementing stack using LL 
+#include <stdio.h>
+#include <stdlib.h>
+struct node{
+    int data;
+    struct node *link;
+};
+
+struct node* push(int dataa,struct node *top){
+    struct node *first=malloc(sizeof(struct node));
+    first->data=dataa;
+    first->link=top;
+    top=first;
+    return top;
+}
+struct node* pop(struct node *top){
+    if(top==NULL){
+        printf("stack empty");
+    }
+    struct node *temp=malloc(sizeof(struct node));
+    int x=top->data;
+    printf("%d is getting removed from stack\n",x);
+    temp=top;
+   top=temp->link;
+    free(temp);
+    return top;
+}
+void traverse(struct node *top)
+{
+    while(top!=NULL){
+       
+        printf("%d\n",top->data);
+         top=top->link;
+    }
+}
+
+int main(){
+    struct node *top=malloc(sizeof(struct node));
+    top->data=12;
+    top->link=NULL;
+    top=push(133,top);
+    traverse(top);
+    top=pop(top);
+    traverse(top);
+}
+
+valid parenthessis matching #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX 100
+
+struct stack {
+    int top;
+    char arr[MAX];
+};
+
+int isfull(struct stack *s) {
+    return s->top == MAX - 1;
+}
+
+int isempty(struct stack *s) { 
+    return s->top == -1;
+}
+
+void push(char a, struct stack *s) {
+    if (isfull(s)) {
+        printf("Stack overflow\n");
+        return;
+    }
+    s->arr[++s->top] = a;
+}
+
+char pop(struct stack *s) {
+    if (isempty(s)) {
+        printf("Stack underflow\n");
+        return '\0'; // Return a null character if the stack is empty
+    }
+    return s->arr[s->top--]; // Return the top element and decrement
+}
+
+char peek(struct stack *s) {
+    if (!isempty(s)) {
+        return s->arr[s->top];
+    }
+    return '\0'; // Return a null character if the stack is empty
+}
+
+int main() {
+    struct stack *st = malloc(sizeof(struct stack));
+    st->top = -1;
+    char arr[50] = "([A+B])";
+    int n = strlen(arr);
+
+    for (int i = 0; i < n; i++) {
+        if (arr[i] == '(' || arr[i] == '[' || arr[i] == '{') {
+            push(arr[i], st);
+        } else if ((arr[i] >= 'a' && arr[i] <= 'z') || (arr[i] >= 'A' && arr[i] <= 'Z')) {
+            continue;
+        } else if (arr[i] == ')' || arr[i] == ']' || arr[i] == '}') {
+            if (isempty(st)) {
+                printf("wrong\n");
+                free(st); // Free allocated memory before exiting
+                return 0;
+            }
+            char p = pop(st);
+            if ((p == '(' && arr[i] != ')') || 
+                (p == '[' && arr[i] != ']') || 
+                (p == '{' && arr[i] != '}')) {
+                printf("wrong\n");
+                free(st); // Free allocated memory before exiting
+                return 0;
+            }
+        }
+    }
+    if (!isempty(st)) {
+        printf("wrong\n"); // Check if stack is not empty at the end
+    } else {
+        printf("correct\n");
+    }
+
+    free(st); // Free allocated memory
+    return 0;
+}
+INFIX TO POSTFIX 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#define MAX 100
+
+char stack[MAX];
+char infix[MAX], postfix[MAX];
+int top = -1;
+
+void push(char c);
+char pop();
+int isEmpty();
+void inToPost();
+void print();
+int precedence(char symbol);
+
+int main()
+{
+    printf("Enter the infix expression: ");
+    fgets(infix, MAX, stdin);
+    // Remove newline character from the input
+    infix[strcspn(infix, "\n")] = '\0';
+
+    inToPost();
+    print();
+
+    return 0;
+}
+
+void inToPost()
+{
+    int i, j = 0;
+    char symbol, next;
+
+    for (i = 0; i < strlen(infix); i++)
+    {
+        symbol = infix[i];
+
+        if (symbol == '(')
+        {
+            push(symbol);
+        }
+        else if (symbol == ')')
+        {
+            while (!isEmpty() && (next = pop()) != '(')
+                postfix[j++] = next;
+            // Check if there is an unmatched opening parenthesis
+            if (isEmpty())
+            {
+                printf("Error: Unmatched parentheses\n");
+                exit(1);
+            }
+        }
+        else if (symbol == '+' || symbol == '-' || symbol == '*' || symbol == '/' || symbol == '^')
+        {
+            while (!isEmpty() && precedence(stack[top]) >= precedence(symbol))
+                postfix[j++] = pop();
+            push(symbol);
+        }
+        else
+        {
+            // Assumption: Input contains valid operands (alphanumeric)
+            if (isalnum(symbol))
+                postfix[j++] = symbol;
+        }
+    }
+
+    while (!isEmpty())
+        postfix[j++] = pop();
+    postfix[j] = '\0';
+}
+
+int precedence(char symbol)
+{
+    switch (symbol)
+    {
+    case '^':
+        return 3;
+    case '*':
+    case '/':
+        return 2;
+    case '+':
+    case '-':
+        return 1;
+    default:
+        return 0;
+    }
+}
+
+void print()
+{
+    printf("The equivalent postfix expression is: %s\n", postfix);
+}
+
+void push(char c)
+{
+    if (top == MAX - 1)
+    {
+        printf("Stack Overflow\n");
+        exit(1);
+    }
+    stack[++top] = c;
+}
+
+char pop()
+{
+    if (top == -1)
+    {
+        printf("Stack Underflow\n");
+        exit(1);
+    }
+    return stack[top--];
+}
+
+int isEmpty()
+{
+    return top == -1;
+}
+
+infix to postfix 
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+#define MAX 100
+struct stack{
+    char arr[MAX];
+    int top;
+};
+int isfull(struct stack *st){
+    return st->top==MAX-1;
+}
+int isempty(struct stack *st){
+    return st->top==-1;
+}
+void push(struct stack *st,char val){
+    if(isfull(st)){
+       
+        printf("its full");
+        return;
+    }
+    else{
+       st->top++;
+        st->arr[st->top]=val;
+    }
+}
+char pop(struct stack *st){
+    char x;
+    if(isempty(st)){
+        return 0;
+        printf("its full");
+    }
+    else{
+       x=st->arr[st->top];
+        st->top=st->top-1;
+    }
+    return x;
+}
+  char top(struct stack *st){
+      if(!isempty(st)){
+      return st->arr[st->top];
+  }}
+  
+  int prec(char s){
+      if(s==')' || s=='('){
+          return 0;
+      }
+      else if(s=='+' || s=='-'){
+          return 1;
+      }
+      if(s=='*' || s=='/'){
+          return 2;
+      }
+      return -1;
+  }
+
+
+
+
+int main()
+{
+   char s[45]= "A + B * C - j / E";
+   
+  struct stack *st = (struct stack*)malloc(sizeof(struct stack));
+   st->top=-1;
+
+   char ans[100]="";
+   int j=0;
+   for(int i=0;i<strlen(s);i++){
+    
+       if(isalnum(s[i])){
+            
+           ans[j]=s[i];
+           j++;
+       }
+       else if(s[i]==' '){
+           continue;
+       }
+       else{
+          i;
+           }
+           else{
+               //equal or less or precendnce
+               while( !isempty(st) && prec(s[i])<=prec(top(st))){
+                   char y=pop(st);
+                   ans[j]=y;
+                   j++;
+               }
+               push(st,s[i]);
+           }
+       f(isempty(st)){
+              push(st,s[i]);
+          }
+           else if(!isempty(st) && prec(s[i])>prec(top(st))){
+               push(st,s[i])
+   }}
+   ans[j]='\0';
+   for(int i=0;ans[i]!='\0';i++){
+   
+       printf("%c",ans[i]);
+   }
+   
+   
+    return 0;
+}
+infix 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX 100
+// Structure to represent a node in the adjacency list
+struct stack {
+    int top;
+    int arr[MAX];
+};
+
+int isfull(struct stack *s) {
+    return s->top == MAX - 1;
+}
+
+int isempty(struct stack *s) { 
+    return s->top == -1;
+}
+
+void push(char a, struct stack *s) {
+    if (isfull(s)) {
+        printf("Stack overflow\n");
+        return;
+    }
+    s->arr[++s->top] = a;
+}
+
+int pop(struct stack *s) {
+    if (isempty(s)) {
+        printf("Stack underflow\n");
+        return '\0'; // Return a null character if the stack is empty
+    }
+    return s->arr[s->top--]; // Return the top element and decrement
+}
+
+int peek(struct stack *s) {
+    if (!isempty(s)) {
+        return s->arr[s->top];
+    }
+    return 0; // Return a null character if the stack is empty
+}
+ int cal(int top1,int top2,char s){
+     if(s=='+'){
+         return top1+top2;
+         
+     }
+      if(s=='-'){
+         return top1-top2;
+         
+     }
+      if(s=='*'){
+         return top1*top2;
+         
+     }
+      if(s=='/'){
+         return top1/top2;
+         
+     }
+     
+     
+ }
+ int isnum(char s){
+     if(s>='0' && s<='9'){
+         return 1;
+     }
+     else{
+         return 0;
+     }
+     return 0;
+ }
+void val(char *s,struct stack *st,int n){
+for(int i=n-1;i>=0;i--){
+    if(isnum(s[i])){
+        push(s[i]-'0',st);
+    }
+    else{
+//operator case
+int top1,top2;
+if(!isempty(st)){
+  top1=peek(st);
+    pop(st);
+}
+if(!isempty(st)){
+  top2=peek(st);
+    pop(st);
+}
+int ans=cal(top1,top2,s[i]);
+ push(ans,st);
+    }
+}
+printf("%d",pop(st));
+}
+    
+
+int main(){
+    char s[]="+*352/-82";
+    
+    struct stack *st=malloc(sizeof(struct stack));
+    st->top=-1;
+    int n=strlen(s);
+    val(s,st,n);
+    
+}
+multiple queue 
+include <stdio.h>
+#include <stdlib.h>
+#define TOTAL_SIZE 30 // Total array size
+#define NUM_QUEUES 3  // Number of queues
+#define QUEUE_SIZE 10 // Fixed size for each queue
+
+struct MultiQueue {
+    int arr[TOTAL_SIZE];  // Shared array for all queues
+    int front[QUEUE_SIZE]; // Front index for each queue
+    int rear[QUEUE_SIZE];  // Rear index for each queue
+};
+   int full(struct MultiQueue *mq,int qno){
+       if(mq->rear[qno]==QUEUE_SIZE-1){
+           return 1;
+       }
+       else{
+           return 0;
+       }
+       return 1;
+   }
+   int empty(struct MultiQueue *mq,int qno){
+     return (mq->front[qno]==-1);
+       
+       
+   }
+void enqueue( struct MultiQueue *mq,int qno,int val){
+    if(full(mq,qno)){
+        printf("not poss");
+    }
+    else{
+        if(empty(mq,qno)){
+            mq->front[qno]=0;
+        }
+        mq->rear[qno]++;
+        mq->arr[qno* QUEUE_SIZE+mq->rear[qno]]=val;
+    }}
+    int dequeue(struct MultiQueue *mq,int qno){
+        int x=-1;
+        if(empty(mq,qno)){
+            printf("not poss");
+            return -1;
+        }
+        
+        else{
+            x=mq->arr[qno* QUEUE_SIZE+mq->rear[qno]];
+            mq->front[qno]++;
+        }
+        return x;
+    }
+    
+    
+
+void display(int qno,  struct MultiQueue *mq){
+    printf("Queue %d: ",qno);
+    for (int i = mq->front[qno]+1; i <= mq->rear[qno]; i++) {
+        printf("%d ", mq->arr[qno * QUEUE_SIZE + i]);
+    }
+    printf("\n");
+}
+
+
+
+
+
+int main() {
+    
+    struct MultiQueue *mq=malloc(sizeof(struct MultiQueue));
+    for(int i=0;i<3;i++){
+        mq->front[i]=-1;
+        mq->rear[-1]=-1;
+    }
+    enqueue(mq,0,5555555);
+     enqueue(mq,0,777777777);
+        enqueue(mq,1,198);
+    display(0,mq);
+    printf("\n");
+    display(1,mq);
+    dequeue(mq,0);
+      printf("\n");
+    display(0,mq);
+    enqueue(mq,55,6);
+    display(55,mq);
+    
+     enqueue(mq,66,6);
+    display(66,mq);
+    
+
+ 
+
+    return 0;
+}
+#include <stdio.h>
+#include <stdlib.h>
+
+#define SIZE 5 // Define the maximum size of the queue
+
+struct CircularQueue {
+    int arr[SIZE];
+    int front; // Points to the front of the queue
+    int rear;  // Points to the rear of the queue
+};
+
+// Initialize the circular queue
+void initQueue(struct CircularQueue* cq) {
+    cq->front = -1;
+    cq->rear = -1;
+}
+
+// Check if the queue is empty
+int isEmpty(struct CircularQueue* cq) {
+    return cq->front == -1;
+}
+
+// Check if the queue is full
+int isFull(struct CircularQueue* cq) {
+    return (cq->rear + 1) % SIZE == cq->front;
+}
+
+// Enqueue an element into the circular queue
+void enqueue(struct CircularQueue* cq, int value) {
+    if (isFull(cq)) {
+        printf("Queue is full! Cannot enqueue %d\n", value);
+        return;
+    }
+    if (isEmpty(cq)) {
+        cq->front = 0; // Set front to 0 when the first element is added
+    }
+    cq->rear = (cq->rear + 1) % SIZE; // Update rear position circularly
+    cq->arr[cq->rear] = value;
+    printf("%d enqueued to the queue.\n", value);
+}
+
+// Dequeue an element from the circular queue
+int dequeue(struct CircularQueue* cq) {
+    if (isEmpty(cq)) {                ///here breaking is not front>rear rather it is front==rrar set it to -1
+        printf("Queue is empty! Cannot dequeue.\n");
+        return -1;
+    }
+    int value = cq->arr[cq->front];
+    if (cq->front == cq->rear) { // Queue becomes empty after this operation //reset
+        cq->front = -1;
+        cq->rear = -1;
+    } else {
+        cq->front = (cq->front + 1) % SIZE; // Update front position circularly
+    }
+    printf("%d dequeued from the queue.\n", value);
+    return value;
+}
+
+// Display the elements in the circular queue
+void displayQueue(struct CircularQueue* cq) {
+    for(int i=cq->front;i<=cq->rear;i++){
+        printf("%d ",cq->arr[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    struct CircularQueue cq;
+    initQueue(&cq);
+
+    // Test the circular queue
+    enqueue(&cq, 10);
+    enqueue(&cq, 20);
+    enqueue(&cq, 30);
+    enqueue(&cq, 40);
+    enqueue(&cq, 50); // Queue becomes full here
+
+    displayQueue(&cq);
+
+    dequeue(&cq);
+    dequeue(&cq);
+
+    displayQueue(&cq);
+
+    enqueue(&cq, 60); // Adds to the circularly free space
+    enqueue(&cq, 70); // Adds to the circularly free space
+
+    displayQueue(&cq);
+
+    return 0;
+}
+
+

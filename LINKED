@@ -496,3 +496,276 @@ void findDuplicates(struct Node* head) {
         }
         ptr1 = ptr1->next;
     }
+removing duplicate 
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+#define MAX 100
+struct node {
+    int data;
+    struct node* next;
+};
+
+struct node* createNode(int data) {
+    
+    struct node* newNode = (struct node*)malloc(sizeof(struct node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+void print(struct node *s){
+    while(s!=NULL){
+        printf("%d",s->data);
+        s=s->next;
+    }
+   
+}
+void remdup(struct node *s){
+    while(s!=NULL){
+        if(s->data=s->next->data){
+            struct node *tem=s->next;
+            s->next=tem->next;
+            free(tem);
+        }
+        s=s->next;
+    }
+}
+
+
+
+
+int main()
+{
+    struct node *temp1=createNode(1);
+     struct node *temp2=createNode(1);
+      struct node *temp3=createNode(2);
+       struct node *temp4=createNode(2);
+       struct node *temp5=createNode(5);
+       struct node *temp6=createNode(5);
+       temp1->next=temp2;
+       temp2->next=temp3;
+       temp3->next=temp4;
+       temp4->next=temp5;
+       temp5->next=temp6;
+       remdup(temp1);
+
+    
+  print(temp1);
+   
+    return 0;
+}
+how to find middle element of ll 
+        // 1_) Find the middle element
+        ListNode *slow = head, *fast = head;
+        while(fast!=NULL && fast->next !=NULL){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        // 2_) if the no of nodes are odd then move slow to one point
+        if(fast != NULL && fast->next == NULL){
+            slow = slow->next;
+        }
+polynomail addition 
+/******************************************************************************
+
+Welcome to GDB Online.
+  GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
+  C#, OCaml, VB, Perl, Swift, Prolog, Javascript, Pascal, COBOL, HTML, CSS, JS
+  Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+#define MAX 100
+struct node {
+    int coeff;
+    int expo;
+    struct node* next;
+};
+
+
+struct node* createNode(int coeff,int expo) {
+    
+    struct node* newNode = (struct node*)malloc(sizeof(struct node));
+    newNode->coeff =coeff;
+    newNode->expo =expo;
+    newNode->next =NULL;
+    return newNode;
+}
+void print(struct node *s){
+    while(s!=NULL){
+        printf("%dx^%d",s->coeff,s->expo);
+        if(s->next!=NULL){
+        printf("+");}
+        s=s->next;
+    }
+}
+struct node *insert(struct node *res,int ans,int expo){
+    struct node *head=res;
+    while(res->next!=NULL){
+        res=res->next;
+    }
+    res->next=createNode(ans,expo);
+    return head;
+} b =s1;
+    struct node *temp2=s2;
+    while(temp1!=NULL && temp2!=NULL){
+    if(temp1->expo==temp2->expo){
+        printf("%dx^%d+",temp1->coeff+temp2->coeff,temp1->expo);
+        temp1=temp1->next;
+        temp2=temp2->next;
+    }
+    else  if(temp1->expo<temp2->expo){
+         printf("%dx^%d+",temp2->coeff,temp2->expo);
+         temp2=temp2->next;
+    }
+    else{
+        printf("%dx^%d+",temp1->coeff,temp1->expo);
+         temp1=temp1->next;
+    }
+    
+    
+}
+}
+
+
+int main()
+{
+    struct node *temp1=createNode(3,4);
+     struct node *temp2=createNode(5,2);
+      struct node *temp3=createNode      (6,1);
+    temp1->next=temp2;
+    temp2->next=temp3;
+    struct node *res=NULL;
+    print(temp1);
+     struct node *temp4=createNode(6,3);
+     struct node *temp5=createNode(10,2);
+      struct node *temp6=createNode(8,1);
+    temp4->next=temp5;
+    temp5->next=temp6;
+    printf("\n");
+    print(temp4);
+    printf("\n");
+    add(temp1,temp4,res);
+    
+   
+    
+   
+    return 0;
+}
+//multiply
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+#define MAX 100
+struct node {
+    int coeff;
+    int expo;
+    struct node* next;
+};
+
+
+struct node* createNode(int coeff,int expo) {
+    
+    struct node* newNode = (struct node*)malloc(sizeof(struct node));
+    newNode->coeff =coeff;
+    newNode->expo =expo;
+    newNode->next =NULL;
+    return newNode;
+}
+void print(struct node *s){
+    while(s!=NULL){
+        printf("%dx^%d",s->coeff,s->expo);
+        if(s->next!=NULL){
+        printf("+");}
+        s=s->next;
+    }
+}
+struct node *insert(struct node *res,int ans,int expo){
+    struct node *head=res;
+    while(res->next!=NULL){
+        res=res->next;
+    }
+    res->next=createNode(ans,expo);
+    return head;
+}
+void multiply(struct node *s1,struct node *s2,struct node *res){
+    
+    struct node *temp1=s1;
+    struct node *temp2=s2;
+    while(temp1!=NULL){
+        struct node *node1=temp1;
+         struct node *node2=temp2;
+        while(node2!=NULL){
+            printf("%dx^%d",node1->coeff*node2->coeff,node1->expo+node2->expo);
+            node2=node2->next;
+            printf("+");
+        }
+   temp1=temp1->next;
+    
+}
+}
+
+
+int main()
+{
+    struct node *temp1=createNode(3,4);
+     struct node *temp2=createNode(4,2);
+      struct node *temp3=createNode(10,1);
+    temp1->next=temp2;
+    temp2->next=temp3;
+    struct node *res=NULL;
+    print(temp1);
+     struct node *temp4=createNode(1,3);
+     struct node *temp5=createNode(1,2);
+      struct node *temp6=createNode(8,1);
+    temp4->next=temp5;
+    temp5->next=temp6;
+    printf("\n");
+    print(temp4);
+    printf("\n");
+    multiply(temp1,temp4,res);
+    
+   
+    
+   
+    return 0;
+}
+sort 
+void bubbleSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        // Flag to check if any swapping occurred
+        
+        
+        // Last i elements are already in place
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                // Swap the elements
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+
+               
+            }
+        }
+        //pairwise linked list 
+        void pairwiseSwap(struct Node* head) {
+    
+    // Base case: if the list is empty or has
+      // only one node, no swap
+    if (head == NULL || head->next == NULL) {
+        return;
+    }
+
+    // Swap the data of the current node with the next node
+    int temp = head->data;
+    head->data = head->next->data;
+    head->next->data = temp;
+
+    // Recursion for the next pair
+    pairwiseSwap(head->next->next);
+}
